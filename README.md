@@ -164,6 +164,7 @@ Run the correctness checks before benchmarking. The dense optimisations and CSR 
 | Physical cores / logical processors | 6 / 12 |
 | Installed RAM | 7,65 GB |
 | Java JDK version | 21.0.12.1 |
+| Python | 3.12.10 |
 | JMH version | 1.37 |
 
 ## Plotting the results
