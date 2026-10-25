@@ -68,6 +68,11 @@ def create_sparse_plots(rows):
             f"Sparse multiplication — allocated memory ({sparsity * 100:g}% sparsity)",
             PLOTS_DIR / f"sparse_allocated_memory_{suffix}.png",
         )
+        plot_sparse_density(
+            level_rows,
+            sparsity,
+            PLOTS_DIR / f"sparse_density_{suffix}.png",
+        )
 
 
 def get_method_rows(rows, method):
@@ -166,6 +171,47 @@ def plot_allocated_memory(rows, methods, title, output):
     ax.set_xticks(sizes)
     ax.set_yscale("log")
     ax.grid(True, which="both", alpha=0.3)
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(output, dpi=200)
+    plt.close(fig)
+    print(f"Created plot: {output}")
+
+
+def plot_sparse_density(rows, sparsity, output):
+    metadata_rows = sorted(
+        (row for row in rows if row["method"] == "csr"),
+        key=lambda row: row["matrix_size"],
+    )
+    if not metadata_rows:
+        metadata_rows = sorted(rows, key=lambda row: row["matrix_size"])
+
+    by_size = {}
+    for row in metadata_rows:
+        by_size[row["matrix_size"]] = row
+    metadata_rows = list(by_size.values())
+
+    if not metadata_rows or any(
+        row["input_nnz_a"] is None or row["input_nnz_b"] is None or row["output_nnz"] is None
+        for row in metadata_rows
+    ):
+        return
+
+    sizes = [row["matrix_size"] for row in metadata_rows]
+    density_a = [100.0 * row["input_nnz_a"] / (row["matrix_size"] ** 2) for row in metadata_rows]
+    density_b = [100.0 * row["input_nnz_b"] / (row["matrix_size"] ** 2) for row in metadata_rows]
+    density_output = [100.0 * row["output_nnz"] / (row["matrix_size"] ** 2) for row in metadata_rows]
+
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    ax.plot(sizes, density_a, marker="o", label="Input A non-zero density")
+    ax.plot(sizes, density_b, marker="s", label="Input B non-zero density")
+    ax.plot(sizes, density_output, marker="^", label="Output non-zero density")
+    ax.set_title(f"Sparse multiplication — actual density at {sparsity * 100:g}% sparsity")
+    ax.set_xlabel("Matrix size (n × n)")
+    ax.set_ylabel("Non-zero entries (%)")
+    ax.set_xticks(sizes)
+    ax.set_ylim(bottom=0)
+    ax.grid(True, alpha=0.3)
     ax.legend()
     fig.tight_layout()
     fig.savefig(output, dpi=200)
