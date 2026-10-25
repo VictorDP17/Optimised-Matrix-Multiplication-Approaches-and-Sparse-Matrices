@@ -33,18 +33,6 @@ public class MatrixGenerator {
         return matrix;
     }
 
-    public static int[][] generateIdentityMatrix(int n) {
-        int[][] matrix = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            matrix[i][i] = 1;
-        }
-        return matrix;
-    }
-
-    public static int[][] generateZeroMatrix(int n) {
-        return new int[n][n];
-    }
-
     public static int countNonZero(int[][] matrix) {
         int count = 0;
         for (int[] row : matrix) {

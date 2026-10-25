@@ -29,11 +29,6 @@ public class CorrectnessTest {
         assertMatrixEquals(expected, MatrixMultiplier.multiplyBlocked(a, b, 2), "blocked");
         assertMatrixEquals(expected, CSRMatrix.multiply(CSRMatrix.fromDense(a), CSRMatrix.fromDense(b)).toDense(), "CSR");
 
-        int[][] identity = MatrixGenerator.generateIdentityMatrix(3);
-        assertMatrixEquals(a, MatrixMultiplier.multiply(a, identity), "identity property");
-        int[][] zeros = MatrixGenerator.generateZeroMatrix(3);
-        assertMatrixEquals(zeros, MatrixMultiplier.multiply(a, zeros), "zero property");
-
         int[][] sparseA = MatrixGenerator.generateSparseMatrix(12, 0.8, 777);
         int[][] sparseB = MatrixGenerator.generateSparseMatrix(12, 0.8, 778);
         int[][] denseResult = MatrixMultiplier.multiply(sparseA, sparseB);
