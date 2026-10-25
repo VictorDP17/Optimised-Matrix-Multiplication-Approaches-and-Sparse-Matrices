@@ -157,8 +157,6 @@ Run the correctness checks before benchmarking. The dense optimisations and CSR 
 
 ### Environment
 
-Record the actual system and versions used for the final run:
-
 | Item | Value |
 |---|---|
 | Operating system and version | Windows 11 Home 25H2 |
@@ -170,7 +168,7 @@ Record the actual system and versions used for the final run:
 
 ## Plotting the results
 
-The plotting script supplied with the project can generate figures from `results.csv` running `main.py` in Python. The script should create a time comparison for dense methods and comparisons of dense-baseline versus CSR performance at each sparsity level.
+The plotting script supplied with the project can generate figures from `results.csv` running `main.py` in Python. The script should create a time and memory comparison for dense methods and comparisons of dense-baseline versus CSR performance at each sparsity level. Density plots can show the realised non-zero fractions of A, B and the product.
 
 ### Dense execution time
 
@@ -187,6 +185,10 @@ The plotting script supplied with the project can generate figures from `results
 ### Sparse allocation
 
 ![Sparse allocation comparison at 90% sparsity](results/plots/sparse_allocated_memory_90pct.png)
+
+### Sparse input and output density
+
+![Sparse density comparison at 90% sparsity](results/plots/sparse_density_90pct.png)
 
 ## Repository and submission contents
 
