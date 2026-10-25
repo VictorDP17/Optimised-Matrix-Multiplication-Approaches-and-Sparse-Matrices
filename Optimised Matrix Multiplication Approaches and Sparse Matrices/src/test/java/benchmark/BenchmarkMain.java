@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.openjdk.jmh.annotations.Mode;
+import java.util.concurrent.TimeUnit;
 
 public class BenchmarkMain {
     private static final String SUMMARY_CSV = "results.csv";
@@ -29,6 +31,8 @@ public class BenchmarkMain {
     public static void main(String[] args) throws Exception {
         Options options = new OptionsBuilder()
                 .include(".*(DenseBenchmarkRunner|SparseBenchmarkRunner).*\\..*")
+                .mode(Mode.AverageTime)
+                .timeUnit(TimeUnit.MILLISECONDS)
                 .warmupIterations(1)
                 .warmupTime(TimeValue.seconds(1))
                 .measurementIterations(5)
